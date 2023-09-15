@@ -1,9 +1,10 @@
 FROM ubuntu:18.04
-RUN apt update &&\
+RUN mkdir /tmp/runtime-orbslam &&\
+  apt update &&\
   apt install -y \
   build-essential \
   cmake \
-  cmake \
+  freeglut3-dev \
   g++ \
   libavcodec-dev \
   libavdevice-dev \
@@ -16,15 +17,23 @@ RUN apt update &&\
   libeigen3-dev \
   libgl1-mesa-dev \
   libglew-dev \
+  libglvnd-dev \
+  libgtk2.0-dev \
   libjpeg-dev \
   libpng-dev \
   libssl-dev \
   libswscale-dev \
   libwayland-dev \
+  libx11-6 \
+  libxext6 \
   libxkbcommon-dev \
+  mesa-common-dev \
+  mesa-utils\
   ninja-build \
   unzip \
+  vim \
   wayland-protocols \
+  libglu1-mesa-dev \
   wget
 
 RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.4.0.zip &&\
@@ -44,3 +53,6 @@ RUN unzip orb_slam3.zip &&\
   cd ORB_SLAM3-1.0-release &&\
   chmod +x build.sh &&\
   ./build.sh
+ENV XDG_RUNTIME_DIR /tmp/runtime-orbslam
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
